@@ -1,5 +1,5 @@
 /**
- *  Copyright 2017-2018 SmartThings
+ *  Copyright 2017-2018 SmartThings | PALI
  *
  *  Device Handler for a simulated mixed-mode RGBW and Tunable White light bulb
  *
@@ -43,7 +43,7 @@ import groovy.transform.Field
 ]
 
 metadata {
-    definition (name: "Custom Bulb by Pali", namespace: "forgeinside56210", author: "PaliK", mnmn: "SmartThingsCommunity", vid: "678ebc3f-ac47-39e5-8968-77a3d551e773") {
+    definition (name: "Simulated RGBW Bulb", namespace: "smartthings/testing", author: "SmartThings") {
         capability "Health Check"
         capability "Actuator"
         capability "Sensor"
@@ -52,8 +52,7 @@ metadata {
         capability "Switch"
         capability "Switch Level"
         capability "Color Control"
-        capability "forgeinside56210.colorTemperature"
-        capability "forgeinside56210.rnetInputSelector"
+        capability "Color Temperature"
         capability "Refresh"
         capability "Configuration"
 
@@ -251,7 +250,7 @@ metadata {
             state "default", label: 'White Color Temp.\n${currentValue}K'
         }
 
-        controlTile("colorTempSliderControl", "device.colorTemperature", "slider", width: 4, height: 1, inactiveLabel: false, range: "(1100..5500)") {
+        controlTile("colorTempSliderControl", "device.colorTemperature", "slider", width: 4, height: 1, inactiveLabel: false, range: "(2200..7000)") {
             state "colorTemperature", action: "setColorTemperature"
         }
 
