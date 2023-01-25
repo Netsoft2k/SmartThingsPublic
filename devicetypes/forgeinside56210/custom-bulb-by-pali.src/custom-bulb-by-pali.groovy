@@ -52,7 +52,7 @@ metadata {
         capability "Switch"
         capability "Switch Level"
         capability "Color Control"
-        capability "Color Temperature"
+        capability "forgeinside56210.colorTemperature"
         capability "Refresh"
         capability "Configuration"
 
