@@ -6,7 +6,6 @@ metadata {
     capability "Media Input Source"
     capability "Switch Level"
 
-	/*
     command "source0"
     command "source1"
     command "source2"
@@ -21,7 +20,6 @@ metadata {
     command "partyModeOff"
     command "allOff"
     command "zone"
-    */
     
 	}
    
@@ -35,15 +33,94 @@ metadata {
 		reply "off": "switch:off"
 	}
 
-	tiles(scale: 2) {
-		standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
-			state "off", label: '${name}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
-			state "on", label: '${name}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#00A0DC"
-		}
-        
-		main "switch"
-		details "switch"
-	}
+  tiles(scale: 2) {
+    multiAttributeTile(name:"state", type:"generic", width:6, height:4) {
+      tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
+        attributeState "on", label:'On', action:"switch.off", icon:"st.Electronics.electronics16", backgroundColor:"#79b821", nextState:"off"
+        attributeState "off", label:'Off', action:"switch.on", icon:"st.Electronics.electronics16", backgroundColor:"#ffffff", nextState:"on"
+      }
+      tileAttribute ("source", key: "SECONDARY_CONTROL") {
+        attributeState "source", label:'${currentValue}'
+      }
+    }
+
+    // Row 1
+    controlTile("volume", "device.volume", "slider", height: 1, width: 6, range:"(0..100)") {
+      state "volume", label: "Volume", action:"music Player.setLevel", backgroundColor:"#00a0dc"
+    }
+
+    // Row 2-3
+    standardTile("0", "device.source0", decoration: "flat", width: 2, height: 2) {
+      state("off", label:"Source 1", action:"source0", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff")
+      state("on", label:"Source 1", action:"source0", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-green.png", backgroundColor:"#ffffff")
+    }
+    standardTile("1", "device.source1", decoration: "flat", width: 2, height: 2) {
+      state("off", label:"Source 2", action:"source1", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff")
+      state("on", label:"Source 2", action:"source1", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-green.png", backgroundColor:"#ffffff")
+    }
+    standardTile("2", "device.source2", decoration: "flat", width: 2, height: 2) {
+      state("off", label:"Source 3", action:"source2", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff")
+      state("on", label:"Source 3", action:"source2", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-green.png", backgroundColor:"#ffffff")
+    }
+    standardTile("3", "device.source3", decoration: "flat", width: 2, height: 2) {
+      state("off", label:"Source 4", action:"source3", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff")
+      state("on", label:"Source 4", action:"source3", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-green.png", backgroundColor:"#ffffff")
+    }
+    standardTile("4", "device.source4", decoration: "flat", width: 2, height: 2) {
+      state("off", label:"Source 5", action:"source4", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff")
+      state("on", label:"Source 5", action:"source4", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-green.png", backgroundColor:"#ffffff")
+    }
+    standardTile("5", "device.source5", decoration: "flat", width: 2, height: 2) {
+      state("off", label:"Source 6", action:"source5", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff")
+      state("on", label:"Source 6", action:"source5", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-green.png", backgroundColor:"#ffffff")
+    }
+
+
+    // Row 4
+    standardTile("loudness", "device.loudness", decoration: "flat", width: 2, height: 2) {
+      state "off", label:'Loudness', action:"loudnessOn", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff"
+      state "on", label:'Loudness', action:"loudnessOff", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-loudness.png", backgroundColor:"#ffffff"
+    }
+    standardTile("partyMode", "device.partyMode", decoration: "flat", width: 2, height: 2, inactiveLabel: false) {
+      state "off", label:'Party Mode', action:"partyModeOn", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-gray.png", backgroundColor:"#ffffff"
+      state "on", label:'Party Mode', action:"partyModeOff", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-party.png", backgroundColor:"#ffffff"
+    }
+    standardTile("alloff", "device.status", decoration: "flat", width: 2, height: 2, inactiveLabel: false) {
+      state "default", label:"All Off", action:"allOff", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/indicator-dot-power.png", backgroundColor:"#ffffff"
+    }
+
+    // Row 5-6
+    standardTile("bassLevelLabel", "default", decoration: "flat", height: 1, width: 1) {
+      state "default", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/bass.png"
+    }
+    controlTile("bassLevel", "device.bassLevel", "slider", height: 1, width: 3, range:"(-10..10)") {
+      state "default", action:"bassLevel", backgroundColor:"#00a0dc"
+    }
+    standardTile("trebleLevelLabel", "default", decoration: "flat", height: 1, width: 1) {
+      state "default", icon:"https://raw.githubusercontent.com/redloro/smartthings/master/images/treble.png"
+    }
+    controlTile("trebleLevel", "device.trebleLevel", "slider", height: 1, width: 3, range:"(-10..10)") {
+      state "default", action:"trebleLevel", backgroundColor:"#00a0dc"
+    }
+
+    standardTile("refresh", "device.status", width: 2, height: 2, inactiveLabel: false, decoration: "flat") {
+      state "default", label:"Refresh", action:"refresh.refresh", icon:"st.secondary.refresh-icon", backgroundColor:"#ffffff"
+    }
+
+    // Defines which tile to show in the overview
+    main "state"
+
+    // Defines which tile(s) to show when user opens the detailed view
+    details([
+      "state",
+      "volume",
+      "0","1","2","3",
+      "loudness", "partyMode", "alloff",
+      "bassLevelLabel", "bassLevel",
+      "refresh",
+      "trebleLevelLabel", "trebleLevel"
+    ])
+  }
         
 }
 
@@ -56,7 +133,7 @@ def source3() { sendCommand(["source": 3], true) }
 def source4() { sendCommand(["source": 4], true) }
 def source5() { sendCommand(["source": 5], true) }
 
-def setVolume(value) { sendCommand(["volume": (value).intValue()], true) }
+def setVolume(value) { sendCommand(["volume": (value/2).intValue()], true) }
 
 def setInputSource(value) { 
 
@@ -75,7 +152,23 @@ def setInputSource(value) {
         }
     }
     
-def setLevel(value) { sendCommand(["source": value], true) }
+def setLevel(value) { 
+
+	switch(value) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        sendCommand(["source": value-1], true);
+        break;
+       
+        default:
+        sendCommand(["source": 0], true);
+        break;
+        }
+    }
 
 def loudnessOn() { sendCommand(["loudness": 1], false) }
 def loudnessOff() { sendCommand(["loudness": 0], false) }
